@@ -64,7 +64,7 @@ class _AuthPageState extends State<AuthPage> {
                         builder: (context) => MultiBlocProvider(
                           providers: [
                             BlocProvider(
-                              create: (context) => AllUsersBloc()..add(AllUsersLoadingEvent(page: 1)),
+                              create: (context) => AllUsersBloc()..add(AllUsersLoadingEvent(page: 1, results: 20)),
                             ),
                           ],
                           child: AllUsers(),

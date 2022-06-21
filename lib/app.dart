@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.allUsers: (context) => MultiBlocProvider(
           providers: [
             BlocProvider(
-              create: (context) => AllUsersBloc()..add(AllUsersLoadingEvent(page: 1)),
+              create: (context) => AllUsersBloc()..add(AllUsersLoadingEvent(page: 1, results: 20)),
             ),
           ],
           child: AllUsers(),

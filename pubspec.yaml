@@ -12,11 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^2.0.0
+  ionicons: ^0.1.2
   flutter_bloc: ^8.0.1
   shared_preferences: ^2.0.13
   http: ^0.13.4
@@ -24,6 +20,13 @@ dev_dependencies:
   flutter_map: ^0.14.0
   latlong2: ^0.8.1
   geolocator: ^8.0.5
+  connectivity_plus: ^2.2.1
+  equatable: ^2.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
 
 flutter:
   uses-material-design: true

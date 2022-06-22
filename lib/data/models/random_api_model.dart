@@ -231,7 +231,6 @@ class Picture extends Equatable {
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props => [large, medium, thumbnail];
 
 }
@@ -264,7 +263,6 @@ class Id extends Equatable {
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props => [name, value];
 
 }
@@ -297,7 +295,6 @@ class Registered extends Equatable {
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props => [date, age];
 
 }
@@ -330,7 +327,6 @@ class Dob extends Equatable {
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props => [date, age];
 
 }
@@ -398,7 +394,6 @@ class Login extends Equatable {
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props => [uuid, username, password, salt, md5, sha1, sha256];
 }
 
@@ -471,7 +466,6 @@ class Location extends Equatable {
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props => [street, city, state, country, postcode, coordinates, timezone];
 
 }
@@ -504,7 +498,6 @@ class Timezone extends Equatable {
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props => [offset, description];
 
 }
@@ -537,7 +530,6 @@ class Coordinates extends Equatable {
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props => [latitude, longitude];
 
 }
@@ -570,7 +562,6 @@ class Street extends Equatable {
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props => [number, name];
 
 }
@@ -610,7 +601,6 @@ class Name extends Equatable {
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props => [title, first, last];
 
 }

@@ -79,7 +79,6 @@ class _AllUsersState extends State<AllUsers> {
           icon: const Icon(Ionicons.arrow_back),
           onPressed: () {
             LocalStorage.remove(AppConstants.LOGIN);
-            // LocalStorage.remove(AppConstants.FAVORITES);
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => AuthPage(),
@@ -206,6 +205,7 @@ class MySearchDelegate extends SearchDelegate {
         close(context, null);
       },
     );
+    return null;
   }
 
   @override

@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ionicons/ionicons.dart';
 
 import '../../../data/models/random_api_model.dart';
-import '../../bloc/all_users_bloc/all_users_bloc.dart';
-import '../../bloc/favorite_check_cubit/favorite_check_cubit.dart';
-import '../all_users/all_users.dart';
-import '../user_info_page/user_info.dart';
 
 class FavoriteUsers extends StatefulWidget {
   final List<Results> usersFavorite;

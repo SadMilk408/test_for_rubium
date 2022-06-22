@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       initialRoute: LocalStorage.getString(AppConstants.LOGIN).isEmpty ? AppRoutes.auth : AppRoutes.allUsers,
-      // initialRoute: AppRoutes.auth,
       routes: {
         AppRoutes.auth: (context) => AuthPage(),
         AppRoutes.allUsers: (context) => MultiBlocProvider(

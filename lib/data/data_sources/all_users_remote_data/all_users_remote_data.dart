@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
@@ -11,7 +10,6 @@ import '../../../core/errors/exceptions.dart';
 import '../../models/random_api_model.dart';
 
 class RandomApiData {
-  /// Отправка токена приложения для пушей
   http.Client client = http.Client();
 
   Future<RandomApiModel> fetch({required int page, required int results}) async {
@@ -31,8 +29,6 @@ class RandomApiData {
             'Content-Type': "application/json"
           },
         );
-
-        log('${re.body}');
 
         if(re.statusCode == 200){
           final RandomApiModel body = RandomApiModel.fromJson(jsonDecode(utf8.decode(re.bodyBytes)));

@@ -14,21 +14,21 @@ class LocalStorage {
     return _prefsInstance!.getString(key) ?? defValue;
   }
 
-  static int getInt(String key, [int defValue = 0]) {
-    return _prefsInstance!.getInt(key) ?? defValue;
-  }
-
   static Future<bool> setString(String key, String value) async {
     var prefs = await _instance;
     return prefs.setString(key, value);
   }
 
-  static Future<bool> setInt(String key, int value) async {
-    var prefs = await _instance;
-    return prefs.setInt(key, value);
-  }
-
   static Future<bool> removeString(String key, [String defValue = '']) {
     return _prefsInstance!.remove(key);
+  }
+
+  static List<String> getList(String key, [List<String> defValue = const []]) {
+    return _prefsInstance!.getStringList(key) ?? defValue;
+  }
+
+  static Future<bool> setList(String key, List<String> value) async {
+    var prefs = await _instance;
+    return prefs.setStringList(key, value);
   }
 }

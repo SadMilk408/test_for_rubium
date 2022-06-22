@@ -7,6 +7,7 @@ import '../../../core/singletons/local_storage.dart';
 import '../../../data/models/random_api_model.dart';
 import '../../bloc/all_users_bloc/all_users_bloc.dart';
 import '../authorization/auth.dart';
+import '../user_info_page/user_info.dart';
 
 class AllUsers extends StatefulWidget {
   const AllUsers({Key? key}) : super(key: key);
@@ -75,6 +76,15 @@ class _AllUsersState extends State<AllUsers> {
         title: Text(LocalStorage.getString(AppConstants.LOGIN)),
       ),
       body: listOfSignals(),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.cyan,
+        onPressed: () {},
+        child: const Icon(
+          Icons.star,
+          color: Colors.white,
+          size: 30,
+        ),
+      ),
     );
   }
 
@@ -106,7 +116,15 @@ class _AllUsersState extends State<AllUsers> {
                   padding: const EdgeInsets.all(8.0),
                   child: MaterialButton(
                     padding: EdgeInsets.zero,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => UserInfo(
+                            user: users[index],
+                          ),
+                        ),
+                      );
+                    },
                     child: Container(
                       color: Colors.blue.withOpacity(0.5),
                       child: ListTile(
@@ -161,19 +179,18 @@ class MySearchDelegate extends SearchDelegate {
   }
 
   @override
-  List<Widget>? buildActions(BuildContext context) =>
-    [
-      IconButton(
-        icon: const Icon(Ionicons.close),
-        onPressed: () {
-          if (query.isEmpty) {
-            close(context, null);
-          } else {
-            query = '';
-          }
-        },
-      ),
-    ];
+  List<Widget>? buildActions(BuildContext context) => [
+        IconButton(
+          icon: const Icon(Ionicons.close),
+          onPressed: () {
+            if (query.isEmpty) {
+              close(context, null);
+            } else {
+              query = '';
+            }
+          },
+        ),
+      ];
 
   @override
   Widget buildResults(BuildContext context) {

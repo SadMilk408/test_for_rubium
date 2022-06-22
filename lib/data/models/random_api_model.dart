@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+
 /// results : [{"gender":"female","name":{"title":"Ms","first":"Elizabeth","last":"Williams"},"location":{"street":{"number":6271,"name":"Universal Drive"},"city":"Whangarei","state":"Bay of Plenty","country":"New Zealand","postcode":99230,"coordinates":{"latitude":"66.5709","longitude":"155.8588"},"timezone":{"offset":"-9:00","description":"Alaska"}},"email":"elizabeth.williams@example.com","login":{"uuid":"3eb1aef1-ffe2-47da-b8a4-8cd4ec09a76b","username":"crazylion804","password":"music","salt":"06iDZNoG","md5":"9b825b930e14974239396f495ae38c8d","sha1":"f4dab29d4c9e37f54c722c692dfc36a4a4ff73de","sha256":"8304b16cad73a6166dd252f6e197e0e5ae38c4a87ad63f40777639454ed8953b"},"dob":{"date":"1989-07-31T14:43:21.195Z","age":33},"registered":{"date":"2006-10-09T13:56:31.389Z","age":16},"phone":"(706)-643-7090","cell":"(830)-576-5033","id":{"name":"","value":null},"picture":{"large":"https://randomuser.me/api/portraits/women/90.jpg","medium":"https://randomuser.me/api/portraits/med/women/90.jpg","thumbnail":"https://randomuser.me/api/portraits/thumb/women/90.jpg"},"nat":"NZ"}]
 /// info : {"seed":"9ca3f4381a64473f","results":1,"page":1,"version":"1.3"}
 
@@ -92,7 +94,7 @@ class Info {
 /// picture : {"large":"https://randomuser.me/api/portraits/women/90.jpg","medium":"https://randomuser.me/api/portraits/med/women/90.jpg","thumbnail":"https://randomuser.me/api/portraits/thumb/women/90.jpg"}
 /// nat : "NZ"
 
-class Results {
+class Results extends Equatable {
   Results({
       String? gender, 
       Name? name, 
@@ -190,13 +192,15 @@ class Results {
     return map;
   }
 
+  @override
+  List<Object?> get props => [name, gender, location, email, login, dob, registered, phone, cell, id, picture, nat];
 }
 
 /// large : "https://randomuser.me/api/portraits/women/90.jpg"
 /// medium : "https://randomuser.me/api/portraits/med/women/90.jpg"
 /// thumbnail : "https://randomuser.me/api/portraits/thumb/women/90.jpg"
 
-class Picture {
+class Picture extends Equatable {
   Picture({
       String? large, 
       String? medium, 
@@ -226,12 +230,16 @@ class Picture {
     return map;
   }
 
+  @override
+  // TODO: implement props
+  List<Object?> get props => [large, medium, thumbnail];
+
 }
 
 /// name : ""
 /// value : null
 
-class Id {
+class Id extends Equatable {
   Id({
       String? name, 
       dynamic value,}){
@@ -255,12 +263,16 @@ class Id {
     return map;
   }
 
+  @override
+  // TODO: implement props
+  List<Object?> get props => [name, value];
+
 }
 
 /// date : "2006-10-09T13:56:31.389Z"
 /// age : 16
 
-class Registered {
+class Registered extends Equatable {
   Registered({
       String? date, 
       int? age,}){
@@ -284,12 +296,16 @@ class Registered {
     return map;
   }
 
+  @override
+  // TODO: implement props
+  List<Object?> get props => [date, age];
+
 }
 
 /// date : "1989-07-31T14:43:21.195Z"
 /// age : 33
 
-class Dob {
+class Dob extends Equatable {
   Dob({
       String? date, 
       int? age,}){
@@ -313,6 +329,10 @@ class Dob {
     return map;
   }
 
+  @override
+  // TODO: implement props
+  List<Object?> get props => [date, age];
+
 }
 
 /// uuid : "3eb1aef1-ffe2-47da-b8a4-8cd4ec09a76b"
@@ -323,7 +343,7 @@ class Dob {
 /// sha1 : "f4dab29d4c9e37f54c722c692dfc36a4a4ff73de"
 /// sha256 : "8304b16cad73a6166dd252f6e197e0e5ae38c4a87ad63f40777639454ed8953b"
 
-class Login {
+class Login extends Equatable {
   Login({
       String? uuid, 
       String? username, 
@@ -377,6 +397,9 @@ class Login {
     return map;
   }
 
+  @override
+  // TODO: implement props
+  List<Object?> get props => [uuid, username, password, salt, md5, sha1, sha256];
 }
 
 /// street : {"number":6271,"name":"Universal Drive"}
@@ -387,13 +410,13 @@ class Login {
 /// coordinates : {"latitude":"66.5709","longitude":"155.8588"}
 /// timezone : {"offset":"-9:00","description":"Alaska"}
 
-class Location {
+class Location extends Equatable {
   Location({
       Street? street, 
       String? city, 
       String? state, 
-      String? country, 
-      int? postcode, 
+      String? country,
+      dynamic postcode,
       Coordinates? coordinates, 
       Timezone? timezone,}){
     _street = street;
@@ -425,7 +448,7 @@ class Location {
   String? get city => _city;
   String? get state => _state;
   String? get country => _country;
-  int? get postcode => _postcode;
+  dynamic get postcode => _postcode;
   Coordinates? get coordinates => _coordinates;
   Timezone? get timezone => _timezone;
 
@@ -447,12 +470,16 @@ class Location {
     return map;
   }
 
+  @override
+  // TODO: implement props
+  List<Object?> get props => [street, city, state, country, postcode, coordinates, timezone];
+
 }
 
 /// offset : "-9:00"
 /// description : "Alaska"
 
-class Timezone {
+class Timezone extends Equatable {
   Timezone({
       String? offset, 
       String? description,}){
@@ -476,12 +503,16 @@ class Timezone {
     return map;
   }
 
+  @override
+  // TODO: implement props
+  List<Object?> get props => [offset, description];
+
 }
 
 /// latitude : "66.5709"
 /// longitude : "155.8588"
 
-class Coordinates {
+class Coordinates extends Equatable {
   Coordinates({
       String? latitude, 
       String? longitude,}){
@@ -505,12 +536,16 @@ class Coordinates {
     return map;
   }
 
+  @override
+  // TODO: implement props
+  List<Object?> get props => [latitude, longitude];
+
 }
 
 /// number : 6271
 /// name : "Universal Drive"
 
-class Street {
+class Street extends Equatable {
   Street({
       int? number, 
       String? name,}){
@@ -534,13 +569,17 @@ class Street {
     return map;
   }
 
+  @override
+  // TODO: implement props
+  List<Object?> get props => [number, name];
+
 }
 
 /// title : "Ms"
 /// first : "Elizabeth"
 /// last : "Williams"
 
-class Name {
+class Name extends Equatable {
   Name({
       String? title, 
       String? first, 
@@ -569,5 +608,9 @@ class Name {
     map['last'] = _last;
     return map;
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [title, first, last];
 
 }

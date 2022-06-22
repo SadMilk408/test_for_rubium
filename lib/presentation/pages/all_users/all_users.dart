@@ -22,7 +22,9 @@ class _AllUsersState extends State<AllUsers> {
   int pageCount = 1;
 
   Future<void> _onRefresh() async {
-    context.read<AllUsersBloc>().add(AllUsersLoadingEvent(page: 1, results: 20));
+    context
+        .read<AllUsersBloc>()
+        .add(AllUsersLoadingEvent(page: 1, results: 20));
   }
 
   @override
@@ -32,12 +34,14 @@ class _AllUsersState extends State<AllUsers> {
     void scrollListener() async {
       if (scrollController.position.extentAfter < 150 && !isLoading) {
         isLoading = true;
-        context.read<AllUsersBloc>().add(AllUsersAddElementsEvent(page: pageCount, results: 10, oldList: users));
+        context.read<AllUsersBloc>().add(AllUsersAddElementsEvent(
+            page: pageCount, results: 10, oldList: users));
         pageCount += 1;
         await Future.delayed(const Duration(seconds: 1));
         isLoading = false;
       }
     }
+
     scrollController.addListener(scrollListener);
   }
 
@@ -59,7 +63,12 @@ class _AllUsersState extends State<AllUsers> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: MySearchDelegate(users: users),
+              );
+            },
             icon: const Icon(Ionicons.search),
           ),
         ],
@@ -97,14 +106,12 @@ class _AllUsersState extends State<AllUsers> {
                   padding: const EdgeInsets.all(8.0),
                   child: MaterialButton(
                     padding: EdgeInsets.zero,
-                    onPressed: (){
-
-                    },
+                    onPressed: () {},
                     child: Container(
                       color: Colors.blue.withOpacity(0.5),
                       child: ListTile(
                         leading: Hero(
-                          tag: 'photo',
+                          tag: '$index',
                           child: CircleAvatar(
                             backgroundImage: NetworkImage(
                               users[index].picture!.medium!,
@@ -134,5 +141,88 @@ class _AllUsersState extends State<AllUsers> {
       }
       return const SizedBox.shrink();
     });
+  }
+}
+
+class MySearchDelegate extends SearchDelegate {
+  final List<Results> users;
+  late List<Results> searchResultUsers = [...users];
+
+  MySearchDelegate({required this.users});
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    IconButton(
+      icon: const Icon(Ionicons.arrow_back),
+      onPressed: () {
+        close(context, null);
+      },
+    );
+  }
+
+  @override
+  List<Widget>? buildActions(BuildContext context) =>
+    [
+      IconButton(
+        icon: const Icon(Ionicons.close),
+        onPressed: () {
+          if (query.isEmpty) {
+            close(context, null);
+          } else {
+            query = '';
+          }
+        },
+      ),
+    ];
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return const SizedBox.shrink();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<Results> users = searchResultUsers.where((searchResult) {
+      final result =
+          '${searchResult.name!.first!.toLowerCase()} ${searchResult.name!.last!.toLowerCase()}';
+      final input = query.toLowerCase();
+      return result.contains(input);
+    }).toList();
+
+    return ListView.builder(
+        itemCount: users.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: MaterialButton(
+              padding: EdgeInsets.zero,
+              onPressed: () {
+                query =
+                    '${users[index].name!.first} ${users[index].name!.last}';
+              },
+              child: Container(
+                color: Colors.blue.withOpacity(0.5),
+                child: ListTile(
+                  leading: Hero(
+                    tag: '$index',
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(
+                        users[index].picture!.medium!,
+                      ),
+                    ),
+                  ),
+                  title: Row(
+                    children: [
+                      Text(
+                        '${users[index].name!.first} ${users[index].name!.last}',
+                      ),
+                    ],
+                  ),
+                  trailing: const Icon(Ionicons.information_circle),
+                ),
+              ),
+            ),
+          );
+        });
   }
 }

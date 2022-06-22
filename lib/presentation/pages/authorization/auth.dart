@@ -58,7 +58,7 @@ class _AuthPageState extends State<AuthPage> {
               child: MaterialButton(
                 onPressed: () {
                   if (_formKeyLogin.currentState!.validate()) {
-                    LocalStorage.setString(AppConstants.LOGIN, _login.text);
+                    LocalStorage.setString(AppConstants.LOGIN, _login.text.trim());
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (context) => MultiBlocProvider(

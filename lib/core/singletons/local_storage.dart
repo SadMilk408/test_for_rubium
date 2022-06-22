@@ -19,7 +19,7 @@ class LocalStorage {
     return prefs.setString(key, value);
   }
 
-  static Future<bool> removeString(String key, [String defValue = '']) {
+  static Future<bool> remove(String key) {
     return _prefsInstance!.remove(key);
   }
 

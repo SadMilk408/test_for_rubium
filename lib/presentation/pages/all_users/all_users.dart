@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ionicons/ionicons.dart';
@@ -8,6 +10,7 @@ import '../../../core/singletons/local_storage.dart';
 import '../../../data/models/random_api_model.dart';
 import '../../bloc/all_users_bloc/all_users_bloc.dart';
 import '../authorization/auth.dart';
+import '../favorite_users/favorite_users.dart';
 import '../user_info_page/user_info.dart';
 
 class AllUsers extends StatefulWidget {
@@ -47,6 +50,26 @@ class _AllUsersState extends State<AllUsers> {
     scrollController.addListener(scrollListener);
   }
 
+  getUsersFromCache() {
+    String login = LocalStorage.getString(AppConstants.LOGIN);
+    List<Results> usersFavorite = [];
+    List<String> cache = LocalStorage.getList('${AppConstants.FAVORITES}$login');
+
+    if (cache.isNotEmpty) {
+      for (var element in cache) {
+        usersFavorite.add(Results.fromJson(jsonDecode(element)));
+      }
+    }
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => FavoriteUsers(
+          usersFavorite: usersFavorite,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +78,8 @@ class _AllUsersState extends State<AllUsers> {
         leading: IconButton(
           icon: const Icon(Ionicons.arrow_back),
           onPressed: () {
-            LocalStorage.removeString(AppConstants.LOGIN);
+            LocalStorage.remove(AppConstants.LOGIN);
+            // LocalStorage.remove(AppConstants.FAVORITES);
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => AuthPage(),
@@ -76,10 +100,12 @@ class _AllUsersState extends State<AllUsers> {
         ],
         title: Text(LocalStorage.getString(AppConstants.LOGIN)),
       ),
-      body: listOfSignals(),
+      body: listOfUsers(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.cyan,
-        onPressed: () {},
+        onPressed: () {
+          getUsersFromCache();
+        },
         child: const Icon(
           Icons.star,
           color: Colors.white,
@@ -89,7 +115,7 @@ class _AllUsersState extends State<AllUsers> {
     );
   }
 
-  Widget listOfSignals() {
+  Widget listOfUsers() {
     return BlocBuilder<AllUsersBloc, AllUsersState>(builder: (context, state) {
       if (state is AllUsersLoadingState) {
         return const Center(

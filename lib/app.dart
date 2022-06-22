@@ -31,8 +31,6 @@ class MyApp extends StatelessWidget {
           ],
           child: AllUsers(),
         ),
-        // AppRoutes.userInfo: (context) => UserInfoPage(),
-        // AppRoutes.favorites: (context) => FavoritesPage(),
       },
     );
   }

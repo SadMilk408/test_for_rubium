@@ -19,21 +19,22 @@ class UserInfo extends StatefulWidget {
 }
 
 class _UserInfoState extends State<UserInfo> {
+  String login = LocalStorage.getString(AppConstants.LOGIN);
 
   @override
   void initState() {
     super.initState();
-    if(checkCache()){
+    if (checkCache()) {
       context.read<FavoriteCheckCubit>().changeFavorite(false);
     }
   }
 
-  bool checkCache(){
-    List<String> cache = LocalStorage.getList(AppConstants.FAVORITES);
+  bool checkCache() {
+    List<String> cache = LocalStorage.getList('${AppConstants.FAVORITES}$login');
 
     if (cache.isNotEmpty) {
       for (var element in cache) {
-        if(widget.user == Results.fromJson(jsonDecode(element))){
+        if (widget.user == Results.fromJson(jsonDecode(element))) {
           return true;
         }
       }
@@ -42,7 +43,7 @@ class _UserInfoState extends State<UserInfo> {
   }
 
   void saveOrDeleteToCacheNewPerson() {
-    List<String> cache = LocalStorage.getList(AppConstants.FAVORITES);
+    List<String> cache = LocalStorage.getList('${AppConstants.FAVORITES}$login');
     List<Results> cacheResults = [];
 
     if (cache.isNotEmpty) {
@@ -62,24 +63,20 @@ class _UserInfoState extends State<UserInfo> {
 
       if (!doupletObjectFlag) {
         cache += [jsonEncode(widget.user)];
-        LocalStorage.setList(AppConstants.FAVORITES, cache);
       }
+      LocalStorage.setList('${AppConstants.FAVORITES}$login', cache);
     } else {
-      LocalStorage.setList(
-        AppConstants.FAVORITES,
-        [
-          jsonEncode(
-            widget.user.toJson(),
-          ),
-        ],
-      );
+      LocalStorage.setList('${AppConstants.FAVORITES}$login', [jsonEncode(widget.user.toJson())]);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('Пользователь'),
+      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.only(top: 200.0),

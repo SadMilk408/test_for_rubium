@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_for_rubium/core/singletons/local_storage.dart';
 
 import '../../../core/dictionaries/constants.dart';
 import '../../../data/models/random_api_model.dart';
+import '../../bloc/favorite_check_cubit/favorite_check_cubit.dart';
 import 'geo_map.dart';
 
 class UserInfo extends StatefulWidget {
@@ -19,7 +19,29 @@ class UserInfo extends StatefulWidget {
 }
 
 class _UserInfoState extends State<UserInfo> {
-  void saveToCacheNewPerson() {
+
+  @override
+  void initState() {
+    super.initState();
+    if(checkCache()){
+      context.read<FavoriteCheckCubit>().changeFavorite(false);
+    }
+  }
+
+  bool checkCache(){
+    List<String> cache = LocalStorage.getList(AppConstants.FAVORITES);
+
+    if (cache.isNotEmpty) {
+      for (var element in cache) {
+        if(widget.user == Results.fromJson(jsonDecode(element))){
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  void saveOrDeleteToCacheNewPerson() {
     List<String> cache = LocalStorage.getList(AppConstants.FAVORITES);
     List<Results> cacheResults = [];
 
@@ -33,6 +55,7 @@ class _UserInfoState extends State<UserInfo> {
       for (var value in cacheResults) {
         if (widget.user == value) {
           doupletObjectFlag = true;
+          cache.removeAt(cacheResults.indexOf(value));
           break;
         }
       }
@@ -43,7 +66,13 @@ class _UserInfoState extends State<UserInfo> {
       }
     } else {
       LocalStorage.setList(
-          AppConstants.FAVORITES, [jsonEncode(widget.user.toJson())]);
+        AppConstants.FAVORITES,
+        [
+          jsonEncode(
+            widget.user.toJson(),
+          ),
+        ],
+      );
     }
   }
 
@@ -90,16 +119,37 @@ class _UserInfoState extends State<UserInfo> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.cyan,
-        onPressed: () {
-          saveToCacheNewPerson();
+      floatingActionButton: BlocBuilder<FavoriteCheckCubit, FavoriteCheckState>(
+        builder: (context, state) {
+          if (state is FavoriteCheckChangeState) {
+            return FloatingActionButton(
+              backgroundColor:
+                  state.check ? Colors.cyan : Colors.lightBlueAccent,
+              onPressed: () {
+                context.read<FavoriteCheckCubit>().changeFavorite(!state.check);
+                saveOrDeleteToCacheNewPerson();
+              },
+              child: Icon(
+                Icons.favorite,
+                color: state.check ? Colors.white : Colors.red,
+                size: 30,
+              ),
+            );
+          } else {
+            return FloatingActionButton(
+              backgroundColor: Colors.cyan,
+              onPressed: () {
+                context.read<FavoriteCheckCubit>().changeFavorite(false);
+                saveOrDeleteToCacheNewPerson();
+              },
+              child: const Icon(
+                Icons.favorite,
+                color: Colors.white,
+                size: 30,
+              ),
+            );
+          }
         },
-        child: const Icon(
-          Icons.favorite,
-          color: Colors.white,
-          size: 30,
-        ),
       ),
     );
   }

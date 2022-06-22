@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:test_for_rubium/presentation/bloc/favorite_check_cubit/favorite_check_cubit.dart';
 
 import '../../../core/dictionaries/constants.dart';
 import '../../../core/singletons/local_storage.dart';
@@ -119,8 +120,11 @@ class _AllUsersState extends State<AllUsers> {
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => UserInfo(
-                            user: users[index],
+                          builder: (context) => BlocProvider(
+                            create: (context) => FavoriteCheckCubit(),
+                            child: UserInfo(
+                              user: users[index],
+                            ),
                           ),
                         ),
                       );

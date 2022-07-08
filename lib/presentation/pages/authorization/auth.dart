@@ -34,19 +34,18 @@ class _AuthPageState extends State<AuthPage> {
                   controller: _login,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: Colors.blue,
-                        width: 1,
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          color: Colors.blue,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    fillColor: Colors.black12,
-                    labelText: 'Логин',
-                    filled: true
-                  ),
+                      fillColor: Colors.black12,
+                      labelText: 'Логин',
+                      filled: true),
                   validator: (value) {
-                    if(value == null || value.isEmpty){
+                    if (value == null || value.isEmpty) {
                       return Errors.requiredField;
                     }
                     return null;
@@ -58,19 +57,19 @@ class _AuthPageState extends State<AuthPage> {
               child: MaterialButton(
                 onPressed: () {
                   if (_formKeyLogin.currentState!.validate()) {
-                    LocalStorage.setString(AppConstants.LOGIN, _login.text.trim());
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => MultiBlocProvider(
-                          providers: [
-                            BlocProvider(
-                              create: (context) => AllUsersBloc()..add(AllUsersLoadingEvent(page: 1, results: 20)),
-                            ),
-                          ],
-                          child: AllUsers(),
-                        ),
-                      )
-                    );
+                    LocalStorage.setString(
+                        AppConstants.LOGIN, _login.text.trim());
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => MultiBlocProvider(
+                        providers: [
+                          BlocProvider(
+                            create: (context) => AllUsersBloc()
+                              ..add(AllUsersLoadingEvent(page: 1, results: 20)),
+                          ),
+                        ],
+                        child: AllUsers(),
+                      ),
+                    ));
                   }
                 },
                 child: Container(
